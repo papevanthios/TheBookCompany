@@ -1,0 +1,4 @@
+boiled egg,15,egg
+scrambled eggs,5,egg,egg
+scrambled eggs,8,egg,egg,egg
+chips with eggs,30,egg,potato,potato,eggs

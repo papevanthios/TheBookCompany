@@ -1,0 +1,11 @@
+burger,30,bun,beef,tomato,cheese
+scrambled eggs,8,egg,egg,egg,egg
+pizza napolitana,30,flour,cheese,cheese
+sandwitch,5,bread,bread,cheese,ham
+chips,25,potato,potato,potato
+pizza 4 seasons,35,flour,cheese,cheese,cheese,cheese
+pizza ham,40,flour,cheese,ham,mushroom,tomato
+pasta napolitana,25,pasta,ham,egg
+pasta speciale,25,pasta,secret ingredient,egg,gold dust,cheese
+omelette,15,egg,egg,cheese,ham
+omelette vegeteriana,15,egg,egg,cheese

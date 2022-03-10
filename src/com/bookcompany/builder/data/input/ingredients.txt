@@ -1,0 +1,11 @@
+lemon,0.1,5,v
+egg,0.15,180,n
+beef,2,350,n
+potato,0.2,210,v
+flour,0.3,250,v
+tomato,0.1,40,v
+cheese,0.8,150,v
+ham,1.5,80,n
+bread,0.4,160,v
+mushroom,1.0,40,v
+pasta,0.9,310,v
