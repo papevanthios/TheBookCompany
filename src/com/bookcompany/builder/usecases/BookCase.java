@@ -17,10 +17,11 @@ import java.io.IOException;
 import java.util.InputMismatchException;
 import java.util.Objects;
 import java.util.Scanner;
+import java.util.stream.Stream;
 
 public class BookCase {
     public static final Scanner scanner = new Scanner(System.in);
-    public static final Repository<Ingredient> listOfIngredients = null;
+    public static Repository<Ingredient> listOfIngredients = null;
     public static Repository<Recipe> listOfRecipes = null;
 
     public static void userInterface() throws IOException {
@@ -28,7 +29,7 @@ public class BookCase {
         System.out.println("--- Welcome to BookCompany ---\n");
 
         // Ingredients are loaded.
-        Repository<Ingredient> listOfIngredients = new IngredientServiceImpl().loadIngredients();
+        listOfIngredients = new IngredientServiceImpl().loadIngredients();
         System.out.println("Ingredients are loaded...\n");
 
         // User options selection.
@@ -41,9 +42,9 @@ public class BookCase {
                 System.out.println("\tPress c: List of all ingredients.");
                 System.out.println("\tPress d: List of all vegetarian ingredients.");
                 System.out.println("\tPress e: List all recipes, ordered by their name.");
-//            System.out.println("\tPress f: To exit.");
-//            System.out.println("\tPress g: To exit.");
-//            System.out.println("\tPress h: To exit.");
+                System.out.println("\tPress f: List all recipes, ordered by preparation time.");
+                System.out.println("\tPress g: List of all vegetarian recipes.");
+                System.out.println("\tPress h: Search for recipes with a user ingredient.");
 //            System.out.println("\tPress i: To exit.");
 //            System.out.println("\tPress j: To exit.");
 //            System.out.println("\tPress k: To exit.");
@@ -71,6 +72,8 @@ public class BookCase {
                         System.out.println("Give recipe name.");
                         try {
                             userChoose = scanner.nextLine();
+                            if (!Objects.equals(userChoose, "egg_recipes") && !Objects.equals(userChoose, "my_recipes"))
+                                System.err.println("The recipe you asked does not exist.");
                         } catch (InputMismatchException ex) {
                             String badInput = scanner.next();
                             System.out.println("Bad input: '" + badInput + "' Please try again.\n");
@@ -86,6 +89,26 @@ public class BookCase {
                 case "c" -> new IngredientServiceImpl().printListOfIngredients(listOfIngredients);
                 case "d" -> new IngredientServiceImpl().printListOfVegetarianIngredients(listOfIngredients);
                 case "e" -> new RecipeServiceImpl().printRecipesByName(listOfRecipes);
+                case "f" -> new RecipeServiceImpl().printRecipesByPreparationTime(listOfRecipes);
+                case "g" -> new RecipeServiceImpl().printVegetarianRecipes(listOfRecipes);
+                case "h" -> {
+                    userChoose = null;
+                    do {
+                        System.out.println("Give ingredient name.");
+                        try {
+                            userChoose = scanner.nextLine();
+                        } catch (InputMismatchException ex) {
+                            String badInput = scanner.next();
+                            System.out.println("Bad input: '" + badInput + "' Please try again.\n");
+                        }
+                    } while (!Objects.equals(userChoose, "lemon") && !Objects.equals(userChoose, "egg")
+                            && !Objects.equals(userChoose, "beef") && !Objects.equals(userChoose, "potato")
+                            && !Objects.equals(userChoose, "flour") && !Objects.equals(userChoose, "tomato")
+                            && !Objects.equals(userChoose, "cheese") && !Objects.equals(userChoose, "ham")
+                            && !Objects.equals(userChoose, "bread") && !Objects.equals(userChoose, "mushroom")
+                            && !Objects.equals(userChoose, "pasta"));
+                    new RecipeServiceImpl().returnedRecipes(listOfRecipes, listOfIngredients, userChoose);
+                }
                 case "-1" -> {
                     System.out.println("Exiting...");
                     System.exit(0);

@@ -32,7 +32,7 @@ public class RecipeServiceImpl implements RecipeService{
             recipe.setPreparationTime(Integer.parseInt(items[1]));
             for (int i = 2; i < items.length; i++) {
                 if (!listIngredients.contains(items[i])) {
-                    System.out.println("Ingredient:" + items[i] + " is not found.");
+                    System.err.println("Ingredient:" + items[i] + " is not found.");
                     ingredientNotExists = true;
                 } else {
                 for (Ingredient ingredient : listOfIngredients.read())
@@ -52,7 +52,6 @@ public class RecipeServiceImpl implements RecipeService{
     public void printRecipesByName(Repository<Recipe> listOfRecipes) {
         if (listOfRecipes == null) {
             System.out.println("There are no recipes.");
-            return;
         } else {
             List<String> listRecipesByName = new ArrayList<>();
             for (Recipe recipe : listOfRecipes.read())
@@ -60,6 +59,70 @@ public class RecipeServiceImpl implements RecipeService{
             Collections.sort(listRecipesByName);
             for (String str : listRecipesByName)
                 System.out.println(str);
+        }
+    }
+
+    @Override
+    public void printRecipesByPreparationTime(Repository<Recipe> listOfRecipes) {
+        if (listOfRecipes == null) {
+            System.out.println("There are no recipes.");
+        } else {
+//            List<String> listRecipesByPreparationTime = new ArrayList<>();
+            List<Integer> listOfPreparationTimes = new ArrayList<>();
+            for (Recipe recipe : listOfRecipes.read())
+                listOfPreparationTimes.add(recipe.getPreparationTime());
+            int minPreparationTime = Collections.min(listOfPreparationTimes);
+            int maxPreparationTime = Collections.max(listOfPreparationTimes);
+            for (int i = minPreparationTime; i <= maxPreparationTime; i++) {
+                for (Recipe recipe : listOfRecipes.read())
+                    if (recipe.getPreparationTime() == i)
+                        System.out.println(recipe.getName());
+            }
+        }
+    }
+
+    @Override
+    public void printVegetarianRecipes(Repository<Recipe> listOfRecipes) {
+        if (listOfRecipes == null) {
+            System.out.println("There are no recipes.");
+        } else {
+            boolean isVegetarian;
+            for (Recipe recipe : listOfRecipes.read()) {
+                isVegetarian = true;
+                for (Ingredient ingredient : recipe.getListOfIngredients()) {
+                    if (Objects.equals(ingredient.getIsVegetarian(), "n")) {
+                        isVegetarian = false;
+                        break;
+                    }
+                }
+                if (isVegetarian)
+                    System.out.println(recipe.getName());
+            }
+        }
+
+    }
+
+    @Override
+    public void returnedRecipes(Repository<Recipe> listOfRecipes, Repository<Ingredient> listOfIngredients, String ingredient) {
+        if (listOfRecipes == null) {
+            System.out.println("There are no recipes.");
+        } else {
+            boolean isFound = false;
+            for (Ingredient ingredientFromList : listOfIngredients.read())
+                if (Objects.equals(ingredientFromList.getName(), ingredient)) {
+                    isFound = true;
+                    break;
+                }
+
+            if (!isFound){
+                System.out.println("0 recipes.");
+            } else {
+                for (Recipe recipe : listOfRecipes.read())
+                    for (Ingredient ingredientOfRecipe : recipe.getListOfIngredients())
+                        if (Objects.equals(ingredientOfRecipe.getName(), ingredient)){
+                            System.out.println(recipe.getName());
+                            break;}
+            }
         }
     }
 }

@@ -9,6 +9,9 @@ import java.io.IOException;
 public interface RecipeService {
     Repository<Recipe> loadRecipes(String recipeName, Repository<Ingredient> listOfIngredients) throws IOException;
     void printRecipesByName(Repository<Recipe> listOfRecipes);
+    void printRecipesByPreparationTime(Repository<Recipe> listOfRecipes);
+    void printVegetarianRecipes(Repository<Recipe> listOfRecipes);
+    void returnedRecipes(Repository<Recipe> listOfRecipes, Repository<Ingredient> listOfIngredients, String ingredient);
 
 
 }

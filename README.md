@@ -6,6 +6,7 @@ A Java project for Individual Application Exercise Specification Document Februa
 
 ---
 ### Steps for the project to run:
+After copying the files on your local machine. Then you only need to run the MainApplication class and the rest of the program will take you forth. The program will ask you for preferred actions to take.
 
 ---
 ### How it works based on methods inside BookCase class:
