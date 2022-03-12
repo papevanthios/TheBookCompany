@@ -72,4 +72,23 @@ public class IngredientServiceImpl implements IngredientService{
             System.out.println(k + " -> " + str);
         });
     }
+
+    @Override
+    public void printListOfRecipesWithGivenIngredients(List<Ingredient> listOfIngredients, Repository<Recipe> listOfRecipes) {
+        List<String> listWithRecipes = new ArrayList<>();
+        boolean allOk;
+        for (Recipe recipe : listOfRecipes.read()) {
+            allOk = true;
+            for (Ingredient ingredient : recipe.getListOfIngredients()) {
+                if (!listOfIngredients.contains(ingredient)) {
+                    allOk = false;
+                    break;
+                }
+            }
+            if (allOk)
+                listWithRecipes.add(recipe.getName());
+        }
+        for (String str : listWithRecipes)
+            System.out.println(str);
+    }
 }

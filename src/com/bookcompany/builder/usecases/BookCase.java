@@ -49,7 +49,7 @@ public class BookCase {
                 System.out.println("\tPress k: Enter the names of recipes to show the ingredients needed for them.");
                 System.out.println("\tPress l: What recipes can i make with the current ingredients?");
                 System.out.println("\tPress m: Add new recipe.");
-//            System.out.println("\tPress n: To exit.");
+                System.out.println("\tPress n: Ingredients available, what recipes can you make?");
                 System.out.println("\tPress -1: To exit.");
                 try {
                     userChoose = scanner.nextLine();
@@ -162,7 +162,7 @@ public class BookCase {
                     System.out.println("First type the name of the recipe, then the preparation time and last the ingredients.");
                     userChoose = scanner.nextLine();
                     String[] items = userChoose.split(",");
-                    listOfRecipes = new RepositoryImpl<>();
+//                    listOfRecipes = new RepositoryImpl<>();
                     List<String> listIngredients = new ArrayList<>();
                     for (Ingredient ingredient : listOfIngredients.read())
                         listIngredients.add(ingredient.getName());
@@ -187,6 +187,30 @@ public class BookCase {
                         listOfRecipes.create(recipe);
                     }
 
+                }
+                case "n" -> {
+                    System.out.println("How many ingredients do you have?");
+                    userChoose = scanner.nextLine();
+                    List<Ingredient> listWithIngredients = new ArrayList<>();
+                    int countOfIngredients = Integer.parseInt(userChoose);
+                    boolean notExists = false;
+                    for (int i = 0; i < countOfIngredients; i++) {
+                        System.out.println("Give ingredient name.");
+                        userChoose = scanner.nextLine();
+                        notExists = false;
+                        for (Ingredient ingredient : listOfIngredients.read())
+                            if (Objects.equals(ingredient.getName(), userChoose)){
+                                listWithIngredients.add(ingredient);
+                            } else {
+                                notExists = true;
+                            }
+                    }
+                    if (!notExists){
+                        System.out.println("Some ingredients does not exists.");
+                        System.out.println("Zero recipes found.");
+                    } else {
+                        new IngredientServiceImpl().printListOfRecipesWithGivenIngredients(listWithIngredients, listOfRecipes);
+                    }
                 }
                 case "-1" -> {
                     System.out.println("Exiting...");

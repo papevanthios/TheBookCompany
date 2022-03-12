@@ -1,0 +1,7 @@
+chips
+pizza napolitana
+omelette
+omelette vegeteriana
+pizza ham
+sandwitch
+pasta napolitana
