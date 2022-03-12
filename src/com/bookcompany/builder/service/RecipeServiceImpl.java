@@ -79,11 +79,13 @@ public class RecipeServiceImpl implements RecipeService{
     }
 
     @Override
-    public void printVegetarianRecipes(Repository<Recipe> listOfRecipes) {
+    public List<String> printVegetarianRecipes(Repository<Recipe> listOfRecipes) {
         if (listOfRecipes == null) {
             System.out.println("There are no recipes.");
+            return null;
         } else {
             boolean isVegetarian;
+            List<String> listToOutput = new ArrayList<>();
             for (Recipe recipe : listOfRecipes.read()) {
                 isVegetarian = true;
                 for (Ingredient ingredient : recipe.getListOfIngredients()) {
@@ -92,21 +94,26 @@ public class RecipeServiceImpl implements RecipeService{
                         break;
                     }
                 }
-                if (isVegetarian)
+
+                if (isVegetarian) {
+                    listToOutput.add(recipe.getName());
                     System.out.println(recipe.getName());
+                }
                 else{
                     System.out.println("There are no vegetarian recipes loaded.");
                     break;
                 }
             }
+            return listToOutput;
         }
 
     }
 
     @Override
-    public void returnedRecipes(Repository<Recipe> listOfRecipes, Repository<Ingredient> listOfIngredients, String ingredient) {
+    public List<String> returnedRecipes(Repository<Recipe> listOfRecipes, Repository<Ingredient> listOfIngredients, String ingredient) {
         if (listOfRecipes == null) {
             System.out.println("There are no recipes.");
+            return null;
         } else {
             boolean isFound = false;
             for (Ingredient ingredientFromList : listOfIngredients.read())
@@ -117,23 +124,31 @@ public class RecipeServiceImpl implements RecipeService{
 
             if (!isFound){
                 System.out.println("0 recipes.");
+                return null;
             } else {
+                List<String> listToOutput = new ArrayList<>();
                 for (Recipe recipe : listOfRecipes.read())
                     for (Ingredient ingredientOfRecipe : recipe.getListOfIngredients())
                         if (Objects.equals(ingredientOfRecipe.getName(), ingredient)){
+                            listToOutput.add(recipe.getName());
                             System.out.println(recipe.getName());
-                            break;}
+                            break;
+                        }
+                return listToOutput;
             }
         }
     }
 
     @Override
-    public void searchRangeOfCalories(Repository<Recipe> listOfRecipes, Repository<Ingredient> listOfIngredients, int fromCalories, int toCalories) {
+    public List<String> searchRangeOfCalories(Repository<Recipe> listOfRecipes, Repository<Ingredient> listOfIngredients, int fromCalories, int toCalories) {
         if (listOfRecipes == null) {
             System.out.println("There are no recipes.");
+            return null;
         } else {
-            if (fromCalories < 0 && toCalories < 0 || fromCalories > toCalories)
+            if (fromCalories < 0 && toCalories < 0 || fromCalories > toCalories) {
                 System.out.println("Calories must be above 0 or to calories must not exceed from calories.");
+                return null;
+            }
             else {
                 Hashtable<Recipe, Integer> recipesCalories = new Hashtable<>();
                 int calories;
@@ -143,10 +158,14 @@ public class RecipeServiceImpl implements RecipeService{
                         calories += ingredient.getCalories();
                     recipesCalories.put(recipe, calories);
                 }
+                List<String> listToOutput = new ArrayList<>();
                 recipesCalories.forEach((k, v) -> {
-                    if (v >= fromCalories && v <= toCalories)
+                    if (v >= fromCalories && v <= toCalories) {
+                        listToOutput.add(k.getName());
                         System.out.println(k.getName());
+                    }
                 });
+                return listToOutput;
             }
         }
     }

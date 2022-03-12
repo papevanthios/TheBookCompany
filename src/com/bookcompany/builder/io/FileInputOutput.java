@@ -1,5 +1,7 @@
 package com.bookcompany.builder.io;
 
+import com.bookcompany.builder.model.Directory;
+
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -18,14 +20,19 @@ public class FileInputOutput {
         return lines;
     }
 
-    public static void writeFile(List<String> lines, String filePath) {
-        try (OutputStream os = new FileOutputStream(filePath);
-             ObjectOutputStream oos = new ObjectOutputStream(os)){
-//            oos.write(lines);
-        } catch (IOException ioException) {
-            System.out.println("Something went wrong during writing.");
-            System.out.println(ioException.getMessage());
-            System.out.println(ioException.getClass());
+    public void writeFile(List<String> listToOutput, String filePath) {
+        String path = Directory.FILE_DIRECTORY.getPath() + "data" + File.separator + "output" + File.separator + filePath;
+        if (new File(path).exists())
+            System.err.println("Filename already exists.");
+        else {
+            try (PrintWriter pw = new PrintWriter(new FileOutputStream(path))) {
+                for (String str : listToOutput)
+                    pw.println(str);
+            } catch (IOException ioException) {
+                System.out.println("Something went wrong during writing.");
+                System.out.println(ioException.getMessage());
+                System.out.println(ioException.getClass());
+            }
         }
     }
 }

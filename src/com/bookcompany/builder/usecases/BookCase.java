@@ -7,6 +7,7 @@
 
 package com.bookcompany.builder.usecases;
 
+import com.bookcompany.builder.io.FileInputOutput;
 import com.bookcompany.builder.model.Ingredient;
 import com.bookcompany.builder.model.Recipe;
 import com.bookcompany.builder.repository.*;
@@ -15,6 +16,7 @@ import com.bookcompany.builder.service.RecipeServiceImpl;
 
 import java.io.IOException;
 import java.util.InputMismatchException;
+import java.util.List;
 import java.util.Objects;
 import java.util.Scanner;
 import java.util.stream.Stream;
@@ -23,6 +25,7 @@ public class BookCase {
     public static final Scanner scanner = new Scanner(System.in);
     public static Repository<Ingredient> listOfIngredients = null;
     public static Repository<Recipe> listOfRecipes = null;
+    public static List<String> listToOutput = null;
 
     public static void userInterface() throws IOException {
         // Starting of BookCompany interface.
@@ -46,7 +49,7 @@ public class BookCase {
                 System.out.println("\tPress g: List of all vegetarian recipes.");
                 System.out.println("\tPress h: Search for recipes with a user ingredient.");
                 System.out.println("\tPress i: Search for recipes with a range of calories.");
-//            System.out.println("\tPress j: To exit.");
+                System.out.println("\tPress j: Save search and give a name.");
 //            System.out.println("\tPress k: To exit.");
 //            System.out.println("\tPress l: To exit.");
 //            System.out.println("\tPress m: To exit.");
@@ -90,8 +93,12 @@ public class BookCase {
                 case "d" -> new IngredientServiceImpl().printListOfVegetarianIngredients(listOfIngredients);
                 case "e" -> new RecipeServiceImpl().printRecipesByName(listOfRecipes);
                 case "f" -> new RecipeServiceImpl().printRecipesByPreparationTime(listOfRecipes);
-                case "g" -> new RecipeServiceImpl().printVegetarianRecipes(listOfRecipes);
+                case "g" -> {
+                    listToOutput = null;
+                    listToOutput = new RecipeServiceImpl().printVegetarianRecipes(listOfRecipes);
+                }
                 case "h" -> {
+                    listToOutput = null;
                     userChoose = null;
                     do {
                         System.out.println("Give ingredient name.");
@@ -107,9 +114,10 @@ public class BookCase {
                             && !Objects.equals(userChoose, "cheese") && !Objects.equals(userChoose, "ham")
                             && !Objects.equals(userChoose, "bread") && !Objects.equals(userChoose, "mushroom")
                             && !Objects.equals(userChoose, "pasta"));
-                    new RecipeServiceImpl().returnedRecipes(listOfRecipes, listOfIngredients, userChoose);
+                    listToOutput = new RecipeServiceImpl().returnedRecipes(listOfRecipes, listOfIngredients, userChoose);
                 }
                 case "i" -> {
+                    listToOutput = null;
                     String fromCalories = null;
                     do {
                         System.out.println("Give from calories above 0.");
@@ -130,7 +138,12 @@ public class BookCase {
                             System.out.println("Bad input: '" + badInput + "' Please try again.\n");
                         }
                     } while (Integer.parseInt(Objects.requireNonNull(toCalories)) < 0);
-                    new RecipeServiceImpl().searchRangeOfCalories(listOfRecipes, listOfIngredients, Integer.parseInt(fromCalories), Integer.parseInt(toCalories));
+                    listToOutput = new RecipeServiceImpl().searchRangeOfCalories(listOfRecipes, listOfIngredients, Integer.parseInt(fromCalories), Integer.parseInt(toCalories));
+                }
+                case "j" -> {
+                    System.out.println("Give file name.");
+                    userChoose = scanner.nextLine();
+                    new FileInputOutput().writeFile(listToOutput, userChoose);
                 }
                 case "-1" -> {
                     System.out.println("Exiting...");
