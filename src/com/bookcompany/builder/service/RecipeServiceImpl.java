@@ -169,4 +169,18 @@ public class RecipeServiceImpl implements RecipeService{
             }
         }
     }
+
+    @Override
+    public void listIngredientsForRecipes(List<Recipe> listWithRecipes, Repository<Ingredient> listOfIngredients) {
+        Hashtable<String, Integer> listWithIngredients = new Hashtable<>();
+        for (Recipe recipe : listWithRecipes)
+            for (Ingredient ingredient : recipe.getListOfIngredients())
+                if (listWithIngredients.containsKey(ingredient.getName())){
+                    int value = listWithIngredients.get(ingredient.getName());
+                    listWithIngredients.put(ingredient.getName(), value + 1);
+                } else {
+                    listWithIngredients.put(ingredient.getName(), 1);
+                }
+        listWithIngredients.forEach((k, v) -> System.out.println(k + " = " + v));
+    }
 }

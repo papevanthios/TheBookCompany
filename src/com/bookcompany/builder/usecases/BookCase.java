@@ -15,10 +15,7 @@ import com.bookcompany.builder.service.IngredientServiceImpl;
 import com.bookcompany.builder.service.RecipeServiceImpl;
 
 import java.io.IOException;
-import java.util.InputMismatchException;
-import java.util.List;
-import java.util.Objects;
-import java.util.Scanner;
+import java.util.*;
 import java.util.stream.Stream;
 
 public class BookCase {
@@ -50,7 +47,7 @@ public class BookCase {
                 System.out.println("\tPress h: Search for recipes with a user ingredient.");
                 System.out.println("\tPress i: Search for recipes with a range of calories.");
                 System.out.println("\tPress j: Save search and give a name.");
-//            System.out.println("\tPress k: To exit.");
+                System.out.println("\tPress k: Enter the names of recipes to show the ingredients needed for them.");
 //            System.out.println("\tPress l: To exit.");
 //            System.out.println("\tPress m: To exit.");
 //            System.out.println("\tPress n: To exit.");
@@ -144,6 +141,21 @@ public class BookCase {
                     System.out.println("Give file name.");
                     userChoose = scanner.nextLine();
                     new FileInputOutput().writeFile(listToOutput, userChoose);
+                }
+                case "k" -> {
+                    System.out.println("How many recipes you want to give?");
+                    userChoose = scanner.nextLine();
+                    List<Recipe> listWithRecipes = new ArrayList<>();
+                    int recipesToGive = Integer.parseInt(userChoose);
+                    System.out.println(recipesToGive);
+                    for (int i = 0; i < recipesToGive; i++) {
+                        System.out.println("Give recipe name.");
+                        userChoose = scanner.nextLine();
+                        for (Recipe recipe : listOfRecipes.read())
+                            if (Objects.equals(recipe.getName(), userChoose))
+                                listWithRecipes.add(recipe);
+                    }
+                    new RecipeServiceImpl().listIngredientsForRecipes(listWithRecipes, listOfIngredients);
                 }
                 case "-1" -> {
                     System.out.println("Exiting...");
