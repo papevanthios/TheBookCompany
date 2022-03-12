@@ -16,7 +16,6 @@ import com.bookcompany.builder.service.RecipeServiceImpl;
 
 import java.io.IOException;
 import java.util.*;
-import java.util.stream.Stream;
 
 public class BookCase {
     public static final Scanner scanner = new Scanner(System.in);
@@ -48,7 +47,7 @@ public class BookCase {
                 System.out.println("\tPress i: Search for recipes with a range of calories.");
                 System.out.println("\tPress j: Save search and give a name.");
                 System.out.println("\tPress k: Enter the names of recipes to show the ingredients needed for them.");
-//            System.out.println("\tPress l: To exit.");
+                System.out.println("\tPress l: What recipes can i make with the current ingredients?");
 //            System.out.println("\tPress m: To exit.");
 //            System.out.println("\tPress n: To exit.");
                 System.out.println("\tPress -1: To exit.");
@@ -157,6 +156,8 @@ public class BookCase {
                     }
                     new RecipeServiceImpl().listIngredientsForRecipes(listWithRecipes, listOfIngredients);
                 }
+                case "l" -> new IngredientServiceImpl().printListOfRecipesWithAvailableIngredients(listOfIngredients, listOfRecipes);
+
                 case "-1" -> {
                     System.out.println("Exiting...");
                     System.exit(0);
