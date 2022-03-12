@@ -9,10 +9,7 @@ import com.bookcompany.builder.repository.RepositoryImpl;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 public class RecipeServiceImpl implements RecipeService{
     @Override
@@ -97,6 +94,10 @@ public class RecipeServiceImpl implements RecipeService{
                 }
                 if (isVegetarian)
                     System.out.println(recipe.getName());
+                else{
+                    System.out.println("There are no vegetarian recipes loaded.");
+                    break;
+                }
             }
         }
 
@@ -122,6 +123,30 @@ public class RecipeServiceImpl implements RecipeService{
                         if (Objects.equals(ingredientOfRecipe.getName(), ingredient)){
                             System.out.println(recipe.getName());
                             break;}
+            }
+        }
+    }
+
+    @Override
+    public void searchRangeOfCalories(Repository<Recipe> listOfRecipes, Repository<Ingredient> listOfIngredients, int fromCalories, int toCalories) {
+        if (listOfRecipes == null) {
+            System.out.println("There are no recipes.");
+        } else {
+            if (fromCalories < 0 && toCalories < 0 || fromCalories > toCalories)
+                System.out.println("Calories must be above 0 or to calories must not exceed from calories.");
+            else {
+                Hashtable<Recipe, Integer> recipesCalories = new Hashtable<>();
+                int calories;
+                for (Recipe recipe : listOfRecipes.read()) {
+                    calories = 0;
+                    for (Ingredient ingredient : recipe.getListOfIngredients())
+                        calories += ingredient.getCalories();
+                    recipesCalories.put(recipe, calories);
+                }
+                recipesCalories.forEach((k, v) -> {
+                    if (v >= fromCalories && v <= toCalories)
+                        System.out.println(k.getName());
+                });
             }
         }
     }

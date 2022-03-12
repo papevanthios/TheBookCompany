@@ -45,7 +45,7 @@ public class BookCase {
                 System.out.println("\tPress f: List all recipes, ordered by preparation time.");
                 System.out.println("\tPress g: List of all vegetarian recipes.");
                 System.out.println("\tPress h: Search for recipes with a user ingredient.");
-//            System.out.println("\tPress i: To exit.");
+                System.out.println("\tPress i: Search for recipes with a range of calories.");
 //            System.out.println("\tPress j: To exit.");
 //            System.out.println("\tPress k: To exit.");
 //            System.out.println("\tPress l: To exit.");
@@ -108,6 +108,29 @@ public class BookCase {
                             && !Objects.equals(userChoose, "bread") && !Objects.equals(userChoose, "mushroom")
                             && !Objects.equals(userChoose, "pasta"));
                     new RecipeServiceImpl().returnedRecipes(listOfRecipes, listOfIngredients, userChoose);
+                }
+                case "i" -> {
+                    String fromCalories = null;
+                    do {
+                        System.out.println("Give from calories above 0.");
+                        try {
+                            fromCalories = scanner.nextLine();
+                        } catch (InputMismatchException ex) {
+                            String badInput = scanner.next();
+                            System.out.println("Bad input: '" + badInput + "' Please try again.\n");
+                        }
+                    } while (Integer.parseInt(Objects.requireNonNull(fromCalories)) < 0);
+                    String toCalories = null;
+                    do {
+                        System.out.println("Give to calories above 0.");
+                        try {
+                            toCalories = scanner.nextLine();
+                        } catch (InputMismatchException ex) {
+                            String badInput = scanner.next();
+                            System.out.println("Bad input: '" + badInput + "' Please try again.\n");
+                        }
+                    } while (Integer.parseInt(Objects.requireNonNull(toCalories)) < 0);
+                    new RecipeServiceImpl().searchRangeOfCalories(listOfRecipes, listOfIngredients, Integer.parseInt(fromCalories), Integer.parseInt(toCalories));
                 }
                 case "-1" -> {
                     System.out.println("Exiting...");

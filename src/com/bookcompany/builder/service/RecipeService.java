@@ -12,6 +12,8 @@ public interface RecipeService {
     void printRecipesByPreparationTime(Repository<Recipe> listOfRecipes);
     void printVegetarianRecipes(Repository<Recipe> listOfRecipes);
     void returnedRecipes(Repository<Recipe> listOfRecipes, Repository<Ingredient> listOfIngredients, String ingredient);
+    void searchRangeOfCalories(Repository<Recipe> listOfRecipes, Repository<Ingredient> listOfIngredients, int fromCalories, int toCalories);
+
 
 
 }
