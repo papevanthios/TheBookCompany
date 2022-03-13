@@ -1,5 +1,5 @@
 /**
- * The Main class starts the BookCase class from package use-cases.
+ * The MainApplication class starts the BookCase class from package use-cases.
  *
  * @author Evanthios Papadopoulos
  * @since 08-Mar-22
@@ -12,7 +12,7 @@ import com.bookcompany.builder.usecases.BookCase;
 import java.io.IOException;
 
 public class MainApplication {
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) {
         BookCase.userInterface();
     }
 }

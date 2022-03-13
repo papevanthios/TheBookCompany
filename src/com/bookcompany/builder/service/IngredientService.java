@@ -1,3 +1,10 @@
+/**
+ * The ingredientService interface, is created in order to have the available services that are related to ingredients.
+ *
+ * @author Evanthios Papadopoulos
+ * @since 12-Mar-22
+ */
+
 package com.bookcompany.builder.service;
 
 import com.bookcompany.builder.model.Ingredient;

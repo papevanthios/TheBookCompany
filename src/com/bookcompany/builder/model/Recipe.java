@@ -1,3 +1,10 @@
+/**
+ * The recipe class is the model of every recipe created in the program.
+ *
+ * @author Evanthios Papadopoulos
+ * @since 12-Mar-22
+ */
+
 package com.bookcompany.builder.model;
 
 import java.util.List;

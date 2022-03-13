@@ -1,3 +1,11 @@
+/**
+ * The repository<T> class is for making the repositories of ingredients and recipes in our program.
+ * Basic functionalities are: Create, Read(one item), Read(all items), Update and Delete.
+ *
+ * @author Evanthios Papadopoulos
+ * @since 12-Mar-22
+ */
+
 package com.bookcompany.builder.repository;
 
 import com.bookcompany.builder.exception.MyException;
@@ -5,6 +13,7 @@ import com.bookcompany.builder.model.Entity;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class RepositoryImpl<T extends Entity> implements Repository<T> {
     private final List<T> tList = new ArrayList<>();
@@ -20,7 +29,7 @@ public class RepositoryImpl<T extends Entity> implements Repository<T> {
     @Override
     public T read(String name) {
         for (T t : tList)
-            if (t.getName() == name)
+            if (Objects.equals(t.getName(), name))
                 return t;
         return null;
     }
@@ -28,10 +37,7 @@ public class RepositoryImpl<T extends Entity> implements Repository<T> {
     @Override
     public List<T> read() {
         // Deep copy of the list
-        List<T> returnList = new ArrayList<>();
-        for (T t : tList)
-            returnList.add(t);
-        return returnList;
+        return new ArrayList<>(tList);
     }
 
     @Override

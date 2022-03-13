@@ -1,3 +1,10 @@
+/**
+ * The enum Directory keeps the path of our folder in order to access the files.
+ *
+ * @author Evanthios Papadopoulos
+ * @since 12-Mar-22
+ */
+
 package com.bookcompany.builder.model;
 
 import java.io.File;

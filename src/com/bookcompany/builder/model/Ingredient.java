@@ -1,3 +1,10 @@
+/**
+ * The ingredient class is the model of every ingredient created in the program.
+ *
+ * @author Evanthios Papadopoulos
+ * @since 12-Mar-22
+ */
+
 package com.bookcompany.builder.model;
 
 import java.math.BigDecimal;
